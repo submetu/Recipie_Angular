@@ -1,7 +1,16 @@
 angular.module('app')
-.controller('RecipesController',['dataService',function(dataService){
-	console.log('From RecipesController');
-	this.recipes = dataService.query();
-	console.log(this.recipesFromCateogry);
+.controller('RecipesController',['dataService','$http',function(dataService,$http){
+	var self = this;
+	self.getRecipes = function(){
+		self.recipes = dataService.query();
+		self.AllRecipes = self.recipes;
+	}
+	self.getRecipes();
+	self.getRecipesByCategory = function(){
+		if(self.recipe === null){
+			return self.getRecipes();
+		}
+		self.AllRecipes = dataService.query({category:self.recipe.category});
+	}
 	
 }]);
