@@ -13,7 +13,7 @@
     <div class="flush-right">
       <!-- TODO Add a directive to this button in order to handle 
         when the user clicks to add a new recipe. -->
-      <button>+ Add Recipe</button>
+      <button ng-click="vm.addRecipe()">+ Add Recipe</button>
     </div>
   </div>
 </div>
@@ -53,7 +53,7 @@
           <a href="#"> <img src="images/edit.svg" height="12px"> Edit </a>
           <!-- TODO Add a directive to this anchor element so that you can 
             delete the recipe when the user clicks on the 'Delete' link. -->
-          <a class="no-action-link"> <img src="images/delete.svg" height="12px"> Delete </a>
+          <a class="no-action-link" ng-click="vm.deleteRecipe(recipe._id)"> <img src="images/delete.svg" height="12px"> Delete </a>
         </p>
       </div>
     </div>
