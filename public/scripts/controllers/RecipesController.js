@@ -24,9 +24,12 @@ angular.module('app')
 
 	//DELETES THE SELECTED RECIPE
 	self.deleteRecipe = function(id){
-		dataService.delete({id:id},function(){
-			self.getRecipes();
-		});
+		var r = confirm("Are you sure you want to delete this recipe?");
+		if (r == true) {
+		    dataService.delete({id:id},function(){
+				self.getRecipes(); //AFTER DELETION, GIVE THE USER THE UPDATED RECIPE LIST
+			});
+		}
 	}
 	
 }]);
