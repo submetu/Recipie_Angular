@@ -3,8 +3,8 @@ angular.module('app')
 	var self = this;
 	//GET ALL RECIPES AND ASSIGN THEM TO THE SELECT OPTIONS AND THE MAIN DIV
 	self.getRecipes = function(){
-		self.recipes = dataService.query();
-		self.AllRecipes = self.recipes;
+		self.recipes = dataService.query(); //For the Select option box
+		self.AllRecipes = self.recipes;	//For the main Div
 	};
 	self.getRecipes(); //RUN THE getRecipes() FUNCTION WHEN THE PAGE LOADS
 
@@ -12,7 +12,7 @@ angular.module('app')
 	self.getRecipesByCategory = function(){
 		//If the 'ALL CATEGORIES' option is selected
 		if(self.recipe === null){
-			return self.getRecipes();
+			return self.getRecipes(); //update the main div with ALL the recipes
 		}
 		self.AllRecipes = dataService.query({category:self.recipe.category}); //UPDATES THE MAIN DIV WITH THE NEW RECIPE DATA 
 	};
@@ -20,7 +20,7 @@ angular.module('app')
 	//SEND THE USER TO THE ADD PAGE WHEN THEY CLICK THE +ADD BUTTON
 	self.addRecipe = function(){
 		recipeService.recipe=null; //MAKE THE recipe OBJECT EMPTY SO THAT THE /add PAGE HAS NO DATA
-		$location.path('/add');
+		$location.path('/add');//Send them to the Add page
 	};
 	self.editRecipe = function(recipe){
 		recipeService.recipe = recipe; //MAKE THE recipe OBJECT EQUAL TO THE RECIPE OBJECT OF THE CLICKED RECIPE
