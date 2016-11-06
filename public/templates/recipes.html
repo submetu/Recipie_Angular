@@ -34,7 +34,7 @@
   <!-- TODO Replace this anchor element's href attribute with a 
     directive so that you can route the user to the Recipe Detail 
     screen when they click on a row. -->
-  <a href="#">
+  <a  ng-click="vm.editRecipe(recipe)">
     <div class="grid-70">
       <p>
         <!-- TODO Add binding expressions here in order to 
@@ -50,7 +50,7 @@
           <!-- TODO Replace this anchor element's href attribute with a 
             directive so that you can route the user to the Recipe Detail 
             screen when they click on the 'Edit' link. -->
-          <a href="#"> <img src="images/edit.svg" height="12px"> Edit </a>
+          <a ng-click=vm.editRecipe(recipe)> <img src="images/edit.svg" height="12px"> Edit </a>
           <!-- TODO Add a directive to this anchor element so that you can 
             delete the recipe when the user clicks on the 'Delete' link. -->
           <a class="no-action-link" ng-click="vm.deleteRecipe(recipe._id)"> <img src="images/delete.svg" height="12px"> Delete </a>
