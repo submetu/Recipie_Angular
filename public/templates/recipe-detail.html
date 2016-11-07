@@ -76,7 +76,7 @@
       <!-- TODO Add directives to this select element to bind its value 
         to the recipe model's `category` property and to populate the list
         with the categories from the database. -->
-      <select ng-options="recipe.category as recipe.category for recipe in vm.allRecipes | unique:'category'" ng-model="vm.recipe.category">
+      <select ng-options="category for category in vm.categories " ng-model="vm.recipe.category">
       </select>
     </p>
   </div>

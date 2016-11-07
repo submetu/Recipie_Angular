@@ -1,64 +1,50 @@
-angular.module('app')
-.controller('RecipeDetailController',['recipeService','$location','dataService',function(recipeService,$location,dataService){
+(function(){
+	angular.module('app')
+	.controller('RecipeDetailController',['dataService','$location','$routeParams',function(dataService,$location,$routeParams){
 
-	var self = this;
-	self.recipe = recipeService.recipe || {}; //THE RECIPE THAT WAS CLICKED TO BE EDITED OR A NEW RECIPE WITH EMPTY OBJECT
-
-	// console.log(self.recipe.category)
-	self.allRecipes = dataService.query(); //GET ALL THE RECIPES
-	//GET ALL THE INGREDIENTS IN ALL THE RECIPES AND SET THEM TO self.ingredients
-	self.selectIngredients = dataService.query(function(resp){ 
-		var ingredients=[];
-		for(var i =0;i<resp.length;i++){
-			for(var j=0;j<resp[i].ingredients.length;j++){
-				ingredients.push(resp[i].ingredients[j]);
+		var self = this;
+		//If the route was '/add' then make the self.recipe object empty.
+		//If the route was '/edit/' then get the id and make a request to the server to get that recipe and put it into self.recipe
+		self.recipe = ($location.path()==='/add') ? {} : dataService.getRecipe($routeParams.id) ; 
+		//get all the categories and assign them to self.categories
+		dataService.getCategories(function(categories){
+			self.categories = categories;
+		});
+		
+		//GET ALL THE INGREDIENTS IN ALL THE RECIPES AND SET THEM TO self.ingredients
+		dataService.getIngredients(function(ingredients){
+			self.ingredients = ingredients;
+		});
+		
+		//WEHEN THE USER CLICKS THE CANCEL BUTTON TAKE THEM TO THE MAIN PAGE
+		self.cancelButton = function(){
+			$location.path('/');
+		};
+		//Add an ingredient row when Add ingredient button is pressed
+		self.addIngredient = function(){
+			var ingredientObject={
+				foodItem:null,
+				condition:null,
+				amount:null
 			}
+			self.recipe.ingredients = self.recipe.ingredients || []; //If there is no ingredients array, create an empty array
+			self.recipe.ingredients.push(ingredientObject);
+		};
+		//Add a step row when the Add step button is pressed
+		self.addStep = function(){
+			var stepObject={
+				description:null
+			}
+			self.recipe.steps = self.recipe.steps || []; //If there is no steps array, create an empty array
+			self.recipe.steps.push(stepObject);
+		};
+		//Delete the appropriate element from ng-repeat when a delete button is pressed
+		self.deleteElement = function(array,index){
+			array.splice(index,1);
+		};
+		//save the recipe when the Save Recipe button is pressed and move the user to the main page or give errors if there are
+		self.saveRecipe = function(recipe){
+			dataService.saveRecipe(recipe,self,$location);
 		}
-		self.ingredients = ingredients;
-	});
-	
-
-	//WEHEN THE USER CLICKS THE CANCEL BUTTON TAKE THEM TO THE MAIN PAGE
-	self.cancelButton = function(){
-		$location.path('/');
-	};
-
-	self.addIngredient = function(){
-		var ingredientObject={
-			foodItem:null,
-			condition:null,
-			amount:null
-		}
-		self.recipe.ingredients = self.recipe.ingredients || []; //If there is no ingredients array, create an empty array
-		self.recipe.ingredients.push(ingredientObject);
-	};
-	self.addStep = function(){
-		var stepObject={
-			description:null
-		}
-		self.recipe.steps = self.recipe.steps || []; //If there is no steps array, create an empty array
-		self.recipe.steps.push(stepObject);
-	};
-	self.deleteElement = function(array,index){
-		array.splice(index,1);
-	};
-	self.saveRecipe = function(recipe){
-		if(recipe._id){
-			dataService.update({id:recipe._id},recipe,function(resp){
-				$location.path('/');
-			});
-		}
-		else{
-			recipe.description = recipe.description || "";
-			recipe.prepTime = recipe.prepTime || 0;
-			recipe.cookTime = recipe.cookTime || 0;
-
-			dataService.save(recipe,function(resp){
-				$location.path('/');
-			},function(error){
-				self.errors = error.data.errors;
-			});
-		}
-		 
-	}
-}]);
+	}]);
+}());
