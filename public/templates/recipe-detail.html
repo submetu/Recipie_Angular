@@ -76,8 +76,7 @@
       <!-- TODO Add directives to this select element to bind its value 
         to the recipe model's `category` property and to populate the list
         with the categories from the database. -->
-      <select ng-options="recipe.category for recipe in vm.allRecipes | unique:'category'" ng-model="vm.selectRecipes.category">
-        <option value="">{{vm.recipe.category}}</option>
+      <select ng-options="recipe.category as recipe.category for recipe in vm.allRecipes | unique:'category'" ng-model="vm.recipe.category">
       </select>
     </p>
   </div>
@@ -146,7 +145,7 @@
         <!-- TODO Add directives to this select element to bind its value 
           to the recipe ingredient model's `foodItem` property and to 
           populate the list with the food items from the database. -->
-        <select ng-options="ingredient.foodItem for ingredient in vm.ingredients track by ingredient.foodItem " ng-model="ingredient">
+        <select ng-options="ingredient.foodItem for ingredient in vm.ingredients track by ingredient.foodItem " ng-model="vm.recipe.ingredients[$index]">
         </select>
       </p>
     </div>
@@ -168,7 +167,7 @@
       <p class="flush-right">
         <!-- TODO Add a directive to this anchor element so that you can 
           delete the recipe ingredient when the user clicks on the 'Delete' link. -->
-        <a class="no-action-link"> <img src="images/delete.svg" height="12px"> </a>
+        <a class="no-action-link" ng-click="vm.deleteElement(vm.recipe.ingredients,$index)"> <img src="images/delete.svg" height="12px"> </a>
       </p>
     </div>
   </div>
@@ -177,7 +176,7 @@
     <p>
       <!-- TODO Add a directive to this button in order to handle 
         when the user clicks to add a new recipe ingredient. -->
-      <button>+ Add Another Ingredient</button>
+      <button ng-click="vm.addIngredient()">+ Add Another Ingredient</button>
     </p>
   </div>
 
@@ -210,7 +209,7 @@
       <p class="flush-right">
         <!-- TODO Add a directive to this anchor element so that you can 
           delete the recipe step when the user clicks on the 'Delete' link. -->
-        <a class="no-action-link"> <img src="images/delete.svg" height="12px"> </a>
+        <a class="no-action-link" ng-click="vm.deleteElement(vm.recipe.steps,$index)"> <img src="images/delete.svg" height="12px"> </a>
       </p>
     </div>
   </div>
@@ -219,7 +218,7 @@
     <p>
      <!-- TODO Add a directive to this button in order to handle 
        when the user clicks to add a new recipe step. -->
-     <button>+ Add Another Step</button>
+     <button ng-click="vm.addStep()">+ Add Another Step</button>
     </p>
   </div>
 

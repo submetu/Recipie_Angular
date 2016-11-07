@@ -19,11 +19,11 @@ angular.module('app')
 
 	//SEND THE USER TO THE ADD PAGE WHEN THEY CLICK THE +ADD BUTTON
 	self.addRecipe = function(){
-		recipeService.recipe=null; //MAKE THE recipe OBJECT EMPTY SO THAT THE /add PAGE HAS NO DATA
+		recipeService.recipe=null; //MAKE THE recipe OBJECT NULL SO THAT THE /add PAGE HAS NO DATA
 		$location.path('/add');//Send them to the Add page
 	};
 	self.editRecipe = function(recipe){
-		recipeService.recipe = recipe; //MAKE THE recipe OBJECT EQUAL TO THE RECIPE OBJECT OF THE CLICKED RECIPE
+		recipeService.recipe = recipe; //MAKE THE recipe OBJECT EQUAL TO THE RECIPE OBJECT OF THE CLICKED RECIPE SO /add PAGE HAS DATA
 		$location.path('/add');
 	};
 

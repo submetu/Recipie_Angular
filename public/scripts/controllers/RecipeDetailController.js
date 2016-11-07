@@ -1,7 +1,7 @@
 angular.module('app')
 .controller('RecipeDetailController',['recipeService','$location','dataService',function(recipeService,$location,dataService){
 	var self = this;
-	self.recipe = recipeService.recipe; //THE RECIPE THAT WAS CLICKED TO BE EDITED
+	self.recipe = recipeService.recipe || {}; //THE RECIPE THAT WAS CLICKED TO BE EDITED OR A NEW RECIPE WITH EMPTY OBJECT
 	
 	// console.log(self.recipe.category)
 	self.allRecipes = dataService.query(); //GET ALL THE RECIPES
@@ -20,7 +20,25 @@ angular.module('app')
 	//WEHEN THE USER CLICKS THE CANCEL BUTTON TAKE THEM TO THE MAIN PAGE
 	self.cancelButton = function(){
 		$location.path('/');
-	}
+	};
 
-	
+	self.addIngredient = function(){
+		var ingredientObject={
+			foodItem:null,
+			condition:null,
+			amount:null
+		}
+		self.recipe.ingredients = self.recipe.ingredients || []; //If there is no ingredients array, create an empty array
+		self.recipe.ingredients.push(ingredientObject);
+	};
+	self.addStep = function(){
+		var stepObject={
+			description:null
+		}
+		self.recipe.steps = self.recipe.steps || []; //If there is no steps array, create an empty array
+		self.recipe.steps.push(stepObject);
+	};
+	self.deleteElement = function(array,index){
+		array.splice(index,1);
+	};
 }]);
