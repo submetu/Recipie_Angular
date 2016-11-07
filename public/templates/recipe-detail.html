@@ -10,7 +10,7 @@
     <div class="flush-right">
       <!-- TODO Add directives to both the "Save Recipe" and "Cancel"
         buttons in order to handle user clicks. -->
-      <button>Save Recipe</button>
+      <button ng-click="vm.saveRecipe(vm.recipe)">Save Recipe</button>
       <button class="secondary" ng-click="vm.cancelButton()">Cancel</button>
     </div>
   </div>
@@ -19,14 +19,14 @@
 
 <!-- TODO Add a directive to this div element so that it only displays
   when there are validation messages to display. -->
-<div class="grid-100 row">
+<div class="grid-100 row" ng-show="vm.errors">
   <div class="grid-100">
     <p><i>The following errors were found:</i></p>
     <ul class="validation-errors">
       <!-- TODO Add a directive to this li element so that it repeats
         for each validation message that there is to display -->
-      <li>
-        <!-- TODO Add a binding expression to display the validation user message. -->
+      <li ng-repeat="(key,value) in vm.errors" >
+        Error in <strong>{{key | uppercase}}</strong>:  {{value[0].message}}
       </li>
     </ul>
   </div>

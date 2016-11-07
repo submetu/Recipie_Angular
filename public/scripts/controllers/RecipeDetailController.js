@@ -1,8 +1,9 @@
 angular.module('app')
 .controller('RecipeDetailController',['recipeService','$location','dataService',function(recipeService,$location,dataService){
+
 	var self = this;
 	self.recipe = recipeService.recipe || {}; //THE RECIPE THAT WAS CLICKED TO BE EDITED OR A NEW RECIPE WITH EMPTY OBJECT
-	
+
 	// console.log(self.recipe.category)
 	self.allRecipes = dataService.query(); //GET ALL THE RECIPES
 	//GET ALL THE INGREDIENTS IN ALL THE RECIPES AND SET THEM TO self.ingredients
@@ -41,4 +42,23 @@ angular.module('app')
 	self.deleteElement = function(array,index){
 		array.splice(index,1);
 	};
+	self.saveRecipe = function(recipe){
+		if(recipe._id){
+			dataService.update({id:recipe._id},recipe,function(resp){
+				$location.path('/');
+			});
+		}
+		else{
+			recipe.description = recipe.description || "";
+			recipe.prepTime = recipe.prepTime || 0;
+			recipe.cookTime = recipe.cookTime || 0;
+
+			dataService.save(recipe,function(resp){
+				$location.path('/');
+			},function(error){
+				self.errors = error.data.errors;
+			});
+		}
+		 
+	}
 }]);

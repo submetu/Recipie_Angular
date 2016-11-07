@@ -5,6 +5,7 @@ angular.module('app')
 	self.getRecipes = function(){
 		self.recipes = dataService.query(); //For the Select option box
 		self.AllRecipes = self.recipes;	//For the main Div
+		console.log('gotten ALL recipes');
 	};
 	self.getRecipes(); //RUN THE getRecipes() FUNCTION WHEN THE PAGE LOADS
 
@@ -31,8 +32,10 @@ angular.module('app')
 	self.deleteRecipe = function(id){
 		var r = confirm("Are you sure you want to delete this recipe?");
 		if (r == true) {
-		    dataService.delete({id:id},function(){
+		    dataService.delete({id:id},function(resp){
 				self.getRecipes(); //AFTER DELETION, GIVE THE USER THE UPDATED RECIPE LIST
+			},function(error){
+				console.log(error)
 			});
 		}
 	};
